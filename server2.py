@@ -1,13 +1,15 @@
 import socket
 import threading
 import sys
+import csv
 
 class Server:
     def __init__(self):
         self.HEADER = 64
-        port = 5580
+        port = 3389
         self.PORT = port
-        self.SERVER = '127.0.0.1'
+        #self.SERVER = '127.0.0.1'
+        self.SERVER = ''
         self.ADDR = (self.SERVER, self.PORT)
         self.FORMAT = 'utf-8'
         self.DISCONNECT_MESSAGE = '!DISCONNECT'
@@ -23,6 +25,7 @@ class Server:
                        '+254728603208 +254703535853',
                        '+254707116045',
                        '+254701043240 +254718303340']
+
         self.allowed_accs = ['william.cabello logan.gavin graham.john cynthia.mathias petra.jane',
                              'doris.stevens.25912 cynthia.mathias', 
                              'logan.gavin william.cabello', 
@@ -33,7 +36,14 @@ class Server:
                              'william.cabello logan.gavin',
                              'marcus.alina',
                              'immaculate.njoki']
+
         self.primary_num = ['', '', '', '+254726681927', '', '', '', '', '', '']
+        f = open("data.csv", 'w', newline='')
+        writer = csv.writer(f)
+        parameters = (self.user_list, self.passwords, self.phones, self.allowed_accs, self.primary_num)
+        for parameter in parameters:
+            writer.writerow(parameter)
+        print('Data writen!')
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind(self.ADDR)
